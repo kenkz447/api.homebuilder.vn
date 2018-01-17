@@ -51,7 +51,6 @@ namespace Omi.Modules.HomeBuilder.Services
             .Include(o => o.EntityProducts).ThenInclude(o => o.Product).ThenInclude(o => o.EntityFiles).ThenInclude(o => o.FileEntity)
             .AsQueryable();
 
-
         public IEnumerable<Package> GetPackageByIds(IEnumerable<long> ids)
         {
             var result = GetPackages().Where(o => ids.Contains(o.Id)).AsNoTracking();

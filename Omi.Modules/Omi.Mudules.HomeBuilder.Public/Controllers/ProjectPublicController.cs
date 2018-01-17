@@ -29,7 +29,7 @@ namespace Omi.Mudules.HomeBuilder.Public.Controllers
             var entities = _projects.GetProjects(filterModel);
 
             var pageList = await PaginatedList<Project>.CreateAsync(entities, searchParams.Page, searchParams.PageSize);
-            var result = new PageEntityViewModel<Project, ProjectViewModel>(pageList, entity => ProjectViewModel.FromEntity(entity));
+            var result = new PaginationResult<Project, ProjectViewModel>(pageList, entity => ProjectViewModel.FromEntity(entity));
 
             return Ok(result);
         }

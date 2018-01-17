@@ -14,9 +14,11 @@ namespace Omi.Modules.HomeBuilder.Misc
         {
             CreateMap<ProjectDetail, ProjectViewModelExtended>();
 
+            CreateMap<ProjectDetail, ProjectViewModel>();
             CreateMap<ProjectViewModel, ProjectDetail>()
                 .ForMember(member => member.Project, opt => opt.Ignore())
-                .ForMember(member => member.Language, opt => opt.Ignore());
+                .ForMember(member => member.Language, opt => opt.Ignore())
+                .ForMember(member => member.Id, opt => opt.Ignore());
 
             CreateMap<ProjectBlockViewModel, ProjectBlockDetail>();
 

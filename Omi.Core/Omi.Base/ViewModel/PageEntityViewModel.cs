@@ -36,4 +36,28 @@ namespace Omi.Base.ViewModel
         public Pagination Pager { get; set; }
         public IEnumerable<TViewModel> Entities { get; set; }
     }
+
+    public class PaginationResult<TEntity, TViewModel>
+    {
+        public PaginationResult(
+            PaginatedList<TEntity> pageEntity, Func<TEntity, TViewModel> func)
+        {
+            Content = pageEntity.Select(func);
+            TotalPages = pageEntity.TotalPages;
+            TotalItems = pageEntity.TotalItems;
+            CurrentPage = pageEntity.PageIndex;
+            Size = pageEntity.PageSize;
+            HasNextpage = pageEntity.HasNextPage;
+            HasPreviousPage = pageEntity.HasPreviousPage;
+        }
+
+        public int Size { get; set; }
+        public int TotalItems { get; set; }
+        public int TotalPages { get; set; }
+        public int CurrentPage { get; set; }
+        public bool HasNextpage { get; set; }
+        public bool HasPreviousPage { get; set; }
+
+        public IEnumerable<TViewModel> Content { get; set; }
+    }
 }

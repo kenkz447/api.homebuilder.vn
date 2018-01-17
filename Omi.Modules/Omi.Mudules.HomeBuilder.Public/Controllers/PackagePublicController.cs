@@ -6,6 +6,7 @@ using Omi.Modules.HomeBuilder.Entities;
 using Omi.Modules.HomeBuilder.ServiceModel;
 using Omi.Modules.HomeBuilder.Services;
 using Omi.Modules.HomeBuilder.ViewModels;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Omi.Mudules.HomeBuilder.Public.Controllers
@@ -15,10 +16,12 @@ namespace Omi.Mudules.HomeBuilder.Public.Controllers
     public class PackagePublicController : ControllerBase
     {
         private PackageService _services;
+        private ProjectService _projecst;
 
-        public PackagePublicController(PackageService services)
+        public PackagePublicController(PackageService services, ProjectService projects)
         {
             _services = services;
+            _projecst = projects;
         }
 
         public async Task<OkObjectResult> GetPackages(PackageFilterViewModel searchParams)
@@ -28,6 +31,18 @@ namespace Omi.Mudules.HomeBuilder.Public.Controllers
             var pageList = await PaginatedList<Package>.CreateAsync(entities, searchParams.Page, searchParams.PageSize);
             var result = new PageEntityViewModel<Package, PackageViewModel>(pageList, entity => PackageViewModel.FromEntity(entity));
 
+            return Ok(result);
+        }
+
+        [Route("room-layouts/{id}")]
+        public OkObjectResult GetPackagesByRoomLayout(long id)
+        {
+            var roomLayout = _projecst.GetProjectBlock(id);
+            var rooomPerspectives = roomLayout.Children;
+            var packages = rooomPerspectives.Select(o => o.Package).ToList();
+            var pageList = new PaginatedList<Package>(packages, packages.Count, 1, packages.Count);
+
+            var result = new PageEntityViewModel<Package, PackageViewModel>(pageList, entity => PackageViewModel.FromEntity(entity));
             return Ok(result);
         }
 

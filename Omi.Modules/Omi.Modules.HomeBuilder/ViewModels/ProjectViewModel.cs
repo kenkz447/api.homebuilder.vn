@@ -14,6 +14,8 @@ namespace Omi.Modules.HomeBuilder.ViewModels
 {
     public class ProjectViewModel
     {
+        public long Id { get; set; }
+
         public long ProjectId { get; set; }
 
         public string Name { get; set; }
@@ -76,6 +78,7 @@ namespace Omi.Modules.HomeBuilder.ViewModels
             resultViewModel.City = GeographicaLocationViewModel.FromEntity(entity.City);
 
             resultViewModel.CityId = entity.CityId;
+            resultViewModel.Id = entity.Id;
             resultViewModel.Name = entity.Name;
             resultViewModel.BudgetMin = entity.BudgetMin;
             resultViewModel.BudgetMax = entity.BudgetMax;
@@ -101,6 +104,8 @@ namespace Omi.Modules.HomeBuilder.ViewModels
             var siteMapImage = entity.EntityFiles.FirstOrDefault(o => o.UsingType == (int)FileUsingType.SiteMapImage)?.FileEntity;
             if (locationImage != null)
                 resultViewModel.SiteMapImage = FileEntityInfo.FromEntity(siteMapImage);
+
+            resultViewModel.ProjectBlocks = entity.ProjectBlocks.Select(o => ProjectBlockViewModelExtension.FromEnitity(o));
 
             return resultViewModel;
         }
