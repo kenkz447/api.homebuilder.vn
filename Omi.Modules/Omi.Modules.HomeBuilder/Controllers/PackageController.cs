@@ -66,7 +66,10 @@ namespace Omi.Modules.HomeBuilder.Controllers
         public async Task<BaseJsonResult> GetPackageViewModel(long id)
         {
             var package = await _packageService.GetPackageById(id);
-            var viewModel = ToPackageViewModel(package);
+
+            var viewModel = PackageViewModel.FromEntity(package);
+            viewModel = viewModel.MergeWith(EmptyPackageViewModel);
+
             return new BaseJsonResult(Omi.Base.Properties.Resources.POST_SUCCEEDED, viewModel);
         }
 
@@ -76,8 +79,8 @@ namespace Omi.Modules.HomeBuilder.Controllers
             var nextPackage = await _packageService.GetNextPackage(packageId);
             var prevPackage = await _packageService.GetPrevPackage(packageId);
 
-            var next = ToPackageViewModel(nextPackage);
-            var prev = ToPackageViewModel(prevPackage);
+            var next = PackageViewModel.FromEntity(nextPackage);
+            var prev = PackageViewModel.FromEntity(prevPackage);
             return new BaseJsonResult(Omi.Base.Properties.Resources.POST_SUCCEEDED, new { next, prev});
         }
 
@@ -85,7 +88,7 @@ namespace Omi.Modules.HomeBuilder.Controllers
         public BaseJsonResult GetPackageByIds(IEnumerable<long> ids)
         {
             var packages = _packageService.GetPackageByIds(ids);
-            var result = packages.Select(package => ToPackageViewModel(package));
+            var result = packages.Select(package => PackageViewModel.FromEntity(package));
             return new BaseJsonResult(Omi.Base.Properties.Resources.POST_SUCCEEDED, result);
         }
 
@@ -93,7 +96,7 @@ namespace Omi.Modules.HomeBuilder.Controllers
         public async Task<BaseJsonResult> GetPackage(long packageName)
         {
             var package = await _packageService.GetPackageById(packageName);
-            var viewModel = ToPackageViewModel(package);
+            var viewModel = PackageViewModel.FromEntity(package);
             return new BaseJsonResult(Omi.Base.Properties.Resources.POST_SUCCEEDED, viewModel);
         }
 
@@ -129,7 +132,7 @@ namespace Omi.Modules.HomeBuilder.Controllers
             }
 
             var result = await PaginatedList<Package>.CreateAsync(entities, serviceModel.Page, serviceModel.PageSize);
-            var viewModels = new PageEntityViewModel<Package, PackageViewModel>(result, o => ToPackageViewModel(o));
+            var viewModels = new PageEntityViewModel<Package, PackageViewModel>(result, o => PackageViewModel.FromEntity(o));
             return Ok(viewModels);
         }
 
@@ -170,50 +173,6 @@ namespace Omi.Modules.HomeBuilder.Controllers
             var result = await _packageService.DeleteProductAsync(serviceModel);
 
             return new BaseJsonResult(Base.Properties.Resources.POST_SUCCEEDED, result);
-        }
-
-        private PackageViewModel ToPackageViewModel(Package package)
-        {
-            if (package == null)
-                return null;
-
-            var packageViewModel = EmptyPackageViewModel;
-
-            packageViewModel.Id = package.Id;
-            packageViewModel.ProjectBlockId = package.ProjectBlockId;
-            packageViewModel.IsPerspective = package.IsPerspective;
-
-            var detail = package.Details.FirstOrDefault();
-            packageViewModel.Price = detail.Price;
-            packageViewModel.Area = detail.Area;
-            packageViewModel.Title = detail.Title;
-            packageViewModel.SortText = detail.SortText;
-
-            var avatarFile = package.EntityFiles.FirstOrDefault(o => o.UsingType == (int)FileUsingType.Avatar);
-            packageViewModel.Avatar = FileEntityInfo.FromEntity(avatarFile.FileEntity);
-
-            var pictureFiles = package.EntityFiles.Where(o => o.UsingType == (int)FileUsingType.Picture);
-            packageViewModel.Pictures = pictureFiles.Select(o => FileEntityInfo.FromEntity(o.FileEntity));
-
-            var houseType = package.EntityTaxonomies.FirstOrDefault(o => o.Taxonomy.TaxonomyTypeId == HouseStyleSeed.HouseStyle.Id);
-            packageViewModel.HouseTypeId = houseType.TaxonomyId;
-            packageViewModel.HouseTypeLabel = houseType.Taxonomy.Details.FirstOrDefault(o => o.ForCurrentRequestLanguage()).Label;
-
-            var designTheme = package.EntityTaxonomies.FirstOrDefault(o => o.Taxonomy.TaxonomyTypeId == DesignThemeSeed.DesignTheme.Id);
-            packageViewModel.DesignThemeId = designTheme.TaxonomyId;
-            packageViewModel.DesignThemeLabel = designTheme.Taxonomy.Details.FirstOrDefault(o => o.ForCurrentRequestLanguage()).Label;
-
-            var includedItems = package.EntityTaxonomies.Where(o => o.Taxonomy.TaxonomyTypeId == PackageIncludedSeed.PackageIncludedItem.Id);
-            packageViewModel.PackageIncludedItemIds = includedItems.Select(o => o.TaxonomyId);
-            packageViewModel.PackageIncludedItems = includedItems.Select(o => TaxomonyViewModel.FromEntity(o.Taxonomy));
-
-            var furnitureIncludedItems = package.EntityTaxonomies.Where(o => o.Taxonomy.TaxonomyTypeId == PackageFunitureIncludedSeed.PackageFunitureIncludedItem.Id);
-            packageViewModel.PackageFurnitureIncludedItemIds = furnitureIncludedItems.Select(o => o.TaxonomyId);
-            packageViewModel.PackageFurnitureIncludedItems = furnitureIncludedItems.Select(o => TaxomonyViewModel.FromEntity(o.Taxonomy));
-
-            packageViewModel.Products = new List<PackageProductViewModel>(package.EntityProducts.Select(o => PackageProductViewModel.FromEntity(o)));
-
-            return packageViewModel;
         }
     }
 }

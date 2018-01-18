@@ -80,9 +80,37 @@ namespace Omi.Modules.HomeBuilder.Services
             _locationService = locationService;
         }
 
+        public ProjectBlock GetParentOfProjectBlock(long id)
+        {
+            var parentId = _context
+                .ProjectBlock
+                .FirstOrDefault(o => o.Id == id)
+                .ParentId;
+
+            return _context
+                .ProjectBlock
+                .Include(o => o.Project)
+                .Include(o => o.ProjectBlockDetails)
+                .Include(o => o.ProjectBlockFiles)
+                .ThenInclude(o => o.FileEntity)
+                .FirstOrDefault(o => o.Id == parentId);
+        }
+
         public ProjectBlock GetProjectBlock(long id)
         {
-            var projectBlock = _context.ProjectBlock.FirstOrDefault(o => o.Id == id);
+            var projectBlock = _context
+                .ProjectBlock
+                .Include(o => o.ProjectBlockDetails)
+                .Include(o => o.ProjectBlockFiles)
+                .ThenInclude(o => o.FileEntity)
+                .Include(o => o.Children).ThenInclude(o => o.ProjectBlockDetails)
+                .Include(o => o.Children).ThenInclude(o => o.ProjectBlockFiles)
+                .Include(o => o.Children).ThenInclude(o => o.ProjectBlockDetails)
+                .Include(o => o.Children).ThenInclude(o => o.Package)
+                .Include(o => o.Children).ThenInclude(o => o.Package).ThenInclude(o => o.Details)
+                .Include(o => o.Children).ThenInclude(o => o.Package).ThenInclude(o => o.EntityFiles)
+                .Include(o => o.Children).ThenInclude(o => o.Package).ThenInclude(o => o.EntityFiles).ThenInclude(o => o.FileEntity)
+                .FirstOrDefault(o => o.Id == id);
             return projectBlock;
         }
 

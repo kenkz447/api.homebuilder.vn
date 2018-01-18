@@ -16,6 +16,9 @@ namespace Omi.Modules.HomeBuilder.Entities
     {
         public Package()
         {
+            Details = new HashSet<PackageDetail>();
+            EntityProducts = new HashSet<PackageProduct>();
+            EntityTaxonomies = new HashSet<PackageTaxonomy>();
             EntityProducts = new HashSet<PackageProduct>();
         }
 

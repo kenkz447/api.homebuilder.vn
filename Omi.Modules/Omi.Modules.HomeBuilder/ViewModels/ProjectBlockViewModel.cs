@@ -43,7 +43,18 @@ namespace Omi.Modules.HomeBuilder.ViewModels
                 Children = entity.Children?.Select(o => FromEnitity(o))
             };
 
-            viewModelResult = viewModelResult.MergeWith(AutoMapper.Mapper.Map<ProjectBlockViewModel>(detail));
+            if (entity.Project != null)
+                viewModelResult.Project = new ProjectViewModel()
+                {
+                    Id = entity.Project.Id,
+                    Name = entity.Project.Name
+                };
+
+            if (entity.Package != null)
+                viewModelResult.Package = PackageViewModel.FromEntity(entity.Package);
+
+            if(detail != null)
+                viewModelResult = viewModelResult.MergeWith(AutoMapper.Mapper.Map<ProjectBlockViewModel>(detail));
 
             var layoutImageFileEntity = entity.ProjectBlockFiles.FirstOrDefault(o => o.UsingType == 0);
             if (layoutImageFileEntity != null)
@@ -72,6 +83,9 @@ namespace Omi.Modules.HomeBuilder.ViewModels
         public long EntityTypeId { get; set; }
         public long? PackageId { get; set; }
         public long? ParentId { get; set; }
+
+        public ProjectViewModel Project { get; set; }
+        public PackageViewModel Package { get; set; }
         public FileEntityInfo LayoutImage { get; set; }
         public IEnumerable<LayoutPoint> LayoutPoints { get; set; }
         public IEnumerable<ProjectBlockViewModel> Children { get; set; }

@@ -34,7 +34,7 @@ namespace Omi.Mudules.HomeBuilder.Public.Controllers
             var package = await _packages.GetPackageByName(name);
             var products = package.EntityProducts.Select(o => o.Product).ToList();
             var pageList = new PaginatedList<ProductEntity>(products, products.Count, 1, products.Count);
-            var result = new PageEntityViewModel<ProductEntity, ProductViewModel>(pageList, entity => ProductViewModel.FromEntity(entity));
+            var result = new PaginationResult<ProductEntity, ProductViewModel>(pageList, entity => ProductViewModel.FromEntity(entity));
 
             return Ok(result);
         }

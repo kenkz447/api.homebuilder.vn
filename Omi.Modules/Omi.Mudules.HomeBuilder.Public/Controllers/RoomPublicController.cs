@@ -21,7 +21,16 @@ namespace Omi.Mudules.HomeBuilder.Public.Controllers
         {
             var roomLayout = _projects.GetProjectBlock(id);
             var result = ProjectBlockViewModelExtension.FromEnitity(roomLayout);
-
+            if(roomLayout.ParentId != null)
+            {
+                var parent = _projects.GetParentOfProjectBlock(roomLayout.Id);
+                if(parent != null)
+                    result.Project = new ProjectViewModel
+                    {
+                        Id = parent.Project.Id,
+                        Name = parent.Project.Name
+                    };
+            }
             return Ok(result);
         }
     }

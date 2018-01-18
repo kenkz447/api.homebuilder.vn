@@ -52,6 +52,15 @@ namespace Omi.Mudules.HomeBuilder.Public.Controllers
             var entity = await _services.GetPackageByName(name);
             var result = PackageViewModel.FromEntity(entity);
 
+            if (result.ProjectBlockId != null)
+            {
+                var layoutBlock = _projecst.GetParentOfProjectBlock(result.ProjectBlockId ?? 0);
+                result.Layout = ProjectBlockViewModelExtension.FromEnitity(layoutBlock);
+
+                var perspective = _projecst.GetProjectBlock(result.ProjectBlockId ?? 0);
+                result.Perspective = ProjectBlockViewModelExtension.FromEnitity(perspective);
+            }
+
             return Ok(result);
         }
     }
