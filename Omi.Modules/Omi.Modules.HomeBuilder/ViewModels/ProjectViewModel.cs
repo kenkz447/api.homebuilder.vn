@@ -120,9 +120,9 @@ namespace Omi.Modules.HomeBuilder.ViewModels
 
         public static new ProjectViewModelExtended FromEntity(Project entity)
         {
-            var resultViewModel = ProjectViewModel.FromEntity(entity) as ProjectViewModelExtended;
+            var projectViewModel = ProjectViewModel.FromEntity(entity);
+            var resultViewModel = AutoMapper.Mapper.Map<ProjectViewModelExtended>(projectViewModel);
 
-            resultViewModel.ProjectBlocks = entity.ProjectBlocks.Select(o => ProjectBlockViewModelExtension.FromEnitity(o));
             return resultViewModel;
         }
     }

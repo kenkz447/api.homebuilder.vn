@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Omi.Modules.Blog\Omi.Modules.Blog.csproj" />
     <ProjectReference Include="..\Omi.Modules.HomeBuilder\Omi.Modules.HomeBuilder.csproj" />
   </ItemGroup>
 

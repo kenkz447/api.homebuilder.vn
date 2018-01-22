@@ -21,11 +21,13 @@ namespace Omi.Modules.HomeBuilder.Misc
                 .ForMember(member => member.Id, opt => opt.Ignore());
 
             CreateMap<ProjectBlockViewModel, ProjectBlockDetail>();
-
             CreateMap<ProjectBlockDetail, ProjectBlockViewModel>();
 
             CreateMap<ProjectFilterViewModel, ProjectFilterServiceModel>();
             CreateMap<ProjectFilterServiceModel, ProjectFilterViewModel>();
+
+            CreateMap<ProjectViewModel, ProjectViewModelExtended>();
+            CreateMap<ProjectViewModelExtended, ProjectViewModel>();
         }
     }
 }

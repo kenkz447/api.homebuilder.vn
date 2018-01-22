@@ -49,7 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omi.Modules.Ecommerce", "Om
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omi.Modules.HomeBuilder.Settings", "Omi.Modules\Omi.Modules.HomeBuilder.Settings\Omi.Modules.HomeBuilder.Settings.csproj", "{3B46BF35-84A7-4E1A-90B0-4855FA489F47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Omi.Mudules.HomeBuilder.Public", "Omi.Modules\Omi.Mudules.HomeBuilder.Public\Omi.Mudules.HomeBuilder.Public.csproj", "{D67CC67F-B213-400D-BB83-825F196A23EC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omi.Mudules.HomeBuilder.Public", "Omi.Modules\Omi.Mudules.HomeBuilder.Public\Omi.Mudules.HomeBuilder.Public.csproj", "{D67CC67F-B213-400D-BB83-825F196A23EC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Omi.Modules.Blog", "Omi.Modules\Omi.Modules.Blog\Omi.Modules.Blog.csproj", "{7FC1F907-3F98-46B2-A0BC-856B45CFD57F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -129,6 +131,10 @@ Global
 		{D67CC67F-B213-400D-BB83-825F196A23EC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D67CC67F-B213-400D-BB83-825F196A23EC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D67CC67F-B213-400D-BB83-825F196A23EC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FC1F907-3F98-46B2-A0BC-856B45CFD57F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FC1F907-3F98-46B2-A0BC-856B45CFD57F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FC1F907-3F98-46B2-A0BC-856B45CFD57F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FC1F907-3F98-46B2-A0BC-856B45CFD57F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -154,6 +160,7 @@ Global
 		{252462F5-805C-4ED3-BB72-2ADAC5633A33} = {948184FC-56BA-410F-A7CE-E783B6B836F6}
 		{3B46BF35-84A7-4E1A-90B0-4855FA489F47} = {80FF66BE-99ED-4FEC-92B8-C25DB4A846C5}
 		{D67CC67F-B213-400D-BB83-825F196A23EC} = {80FF66BE-99ED-4FEC-92B8-C25DB4A846C5}
+		{7FC1F907-3F98-46B2-A0BC-856B45CFD57F} = {948184FC-56BA-410F-A7CE-E783B6B836F6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75E7F6C9-2D33-477B-B6FA-1236C7F932F7}

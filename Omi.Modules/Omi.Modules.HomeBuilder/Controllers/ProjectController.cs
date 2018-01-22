@@ -20,7 +20,6 @@ using Omi.Base.Collection;
 
 namespace Omi.Modules.HomeBuilder.Controllers
 {
-    [Route("/api/projects")]
     public class ProjectController : BaseController
     {
         private readonly ProjectService _projectService;
@@ -56,10 +55,9 @@ namespace Omi.Modules.HomeBuilder.Controllers
             }
         }
 
-        private BaseJsonResult GetEmptyProjectViewModel()
+        public BaseJsonResult GetEmptyProjectViewModel()
             => new BaseJsonResult(Base.Properties.Resources.POST_SUCCEEDED, EmptyProjectViewModel);
 
-        [Route("{id}")]
         public async Task<OkObjectResult> GetProject(long id)
         {
             var project = await _projectService.GetProjectById(id);
@@ -106,8 +104,6 @@ namespace Omi.Modules.HomeBuilder.Controllers
             return new BaseJsonResult(Base.Properties.Resources.POST_SUCCEEDED, result);
         }
 
-        #region Public
-        [AllowAnonymous]
         public async Task<OkObjectResult> GetProjects(ProjectFilterViewModel viewModel)
         {
             var serviceModel = ProjectFilterServiceModel.FromViewModel(viewModel);
@@ -118,8 +114,8 @@ namespace Omi.Modules.HomeBuilder.Controllers
             return Ok(viewModels);
         }
 
+        #region Public
         [AllowAnonymous]
-        [Route("name/{name}")]
         public async Task<OkObjectResult> GetProjectByName(string name)
         {
             var project = await _projectService.GetProjectByName(name);
@@ -131,7 +127,6 @@ namespace Omi.Modules.HomeBuilder.Controllers
         }
 
         [AllowAnonymous]
-        [Route("cities")]
         public OkObjectResult GetAllCity()
         {
             var cities = _projectService.GetAllCity();
@@ -141,7 +136,6 @@ namespace Omi.Modules.HomeBuilder.Controllers
         }
 
         [AllowAnonymous]
-        [Route("statues")]
         public OkObjectResult GetAllProjectStatus()
         {
             var projectStatus = _projectService.GetAllProjectStatus();
@@ -151,7 +145,6 @@ namespace Omi.Modules.HomeBuilder.Controllers
         }
 
         [AllowAnonymous]
-        [Route("types")]
         public OkObjectResult GetAllProjectTypes()
         {
             var projectTypes = _projectService.GetAllProjectType();
